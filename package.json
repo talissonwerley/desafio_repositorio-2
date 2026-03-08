@@ -1,0 +1,30 @@
+{
+  "name": "saucedemo-cy",
+  "version": "1.0.0",
+  "description": "Automação de testes E2E com Cypress para SauceDemo - espelho do projeto Robot Framework",
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cy:run:chrome": "cypress run --browser chrome",
+    "cy:run:login": "cypress run --spec \"cypress/e2e/login/*.cy.js\"",
+    "cy:run:checkout": "cypress run --spec \"cypress/e2e/checkout/*.cy.js\"",
+    "cy:run:win": "node scripts/cypress-run.js",
+    "test": "npm run cy:run",
+    "metrics": "node scripts/collect-metrics.js",
+    "clean:results": "rimraf cypress/results cypress/videos cypress/screenshots"
+  },
+  "keywords": [
+    "cypress",
+    "e2e",
+    "saucedemo",
+    "automation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@cypress/grep": "^3.1.5",
+    "cypress": "^13.6.0",
+    "cypress-mochawesome-reporter": "^3.8.2",
+    "rimraf": "^5.0.5"
+  }
+}

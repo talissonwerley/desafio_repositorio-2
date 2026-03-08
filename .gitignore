@@ -1,0 +1,11 @@
+node_modules/
+cypress/results/
+cypress/videos/
+metrics-cache/
+cypress/screenshots/
+*.log
+.DS_Store
+.env
+.env.local
+.playwright-mcp/
+docs/

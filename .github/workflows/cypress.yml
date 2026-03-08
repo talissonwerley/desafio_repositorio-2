@@ -1,0 +1,113 @@
+name: Cypress UI Tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+env:
+  GITHUB_ACTIONS: 'true'
+
+jobs:
+  cypress-login:
+    name: Cypress (Login)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create results directory
+        run: mkdir -p cypress/results/videos cypress/results/screenshots cypress/results/reports
+
+      - name: Run Cypress tests (login)
+        run: npx cypress run --spec "cypress/e2e/login/*.cy.js"
+
+      - name: Collect metrics
+        run: node scripts/collect-metrics.js
+        if: always()
+
+      - name: Upload Cypress results (login)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-results-login
+          path: cypress/results
+          retention-days: 10
+
+  cypress-checkout:
+    name: Cypress (Checkout)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create results directory
+        run: mkdir -p cypress/results/videos cypress/results/screenshots cypress/results/reports
+
+      - name: Run Cypress tests (checkout)
+        run: npx cypress run --spec "cypress/e2e/checkout/*.cy.js"
+
+      - name: Collect metrics
+        run: node scripts/collect-metrics.js
+        if: always()
+
+      - name: Upload Cypress results (checkout)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-results-checkout
+          path: cypress/results
+          retention-days: 10
+
+  report-metrics:
+    name: Resumo de métricas
+    runs-on: ubuntu-latest
+    needs: [cypress-login, cypress-checkout]
+    if: always() && (needs.cypress-login.result == 'success' || needs.cypress-login.result == 'failure') && (needs.cypress-checkout.result == 'success' || needs.cypress-checkout.result == 'failure')
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Restore previous metrics (tendência)
+        uses: actions/cache/restore@v4
+        with:
+          path: metrics-cache
+          key: test-metrics-${{ github.ref }}
+
+      - name: Download results (login)
+        uses: actions/download-artifact@v4
+        with:
+          name: cypress-results-login
+
+      - name: Download results (checkout)
+        uses: actions/download-artifact@v4
+        with:
+          name: cypress-results-checkout
+
+      - name: Merge metrics and write summary
+        run: node scripts/merge-metrics-summary.js
+
+      - name: Save metrics for next run (tendência)
+        uses: actions/cache/save@v4
+        with:
+          path: metrics-cache
+          key: test-metrics-${{ github.ref }}

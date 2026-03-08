@@ -1,0 +1,22 @@
+{
+  "standard": {
+    "username": "standard_user",
+    "password": "secret_sauce",
+    "description": "Usuário válido padrão (STANDARD_USER / VALID_PASSWORD)"
+  },
+  "locked": {
+    "username": "locked_out_user",
+    "password": "secret_sauce",
+    "description": "Usuário bloqueado (LOCKED_OUT_USER)"
+  },
+  "invalidUser": {
+    "username": "usuario_invalido",
+    "password": "secret_sauce",
+    "description": "Usuário inexistente (INVALID_USER)"
+  },
+  "invalidPassword": {
+    "username": "standard_user",
+    "password": "senha_incorreta",
+    "description": "Senha incorreta (INVALID_PASSWORD)"
+  }
+}

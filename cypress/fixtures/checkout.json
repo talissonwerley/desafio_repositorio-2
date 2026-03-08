@@ -1,0 +1,26 @@
+{
+  "valid": {
+    "firstName": "João",
+    "lastName": "Silva",
+    "postalCode": "12345-000",
+    "description": "Dados válidos (CHECKOUT_FIRST_NAME, CHECKOUT_LAST_NAME, CHECKOUT_ZIP)"
+  },
+  "expectedSummary": {
+    "oneItem": {
+      "subtotal": "$29.99",
+      "tax": "$2.40",
+      "total": "$32.39",
+      "subtotalLabel": "Item total: $29.99",
+      "taxLabel": "Tax: $2.40",
+      "totalLabel": "Total: $32.39"
+    },
+    "twoItems": {
+      "subtotal": "$39.98",
+      "tax": "$3.20",
+      "total": "$43.18",
+      "subtotalLabel": "Item total: $39.98",
+      "taxLabel": "Tax: $3.20",
+      "totalLabel": "Total: $43.18"
+    }
+  }
+}
