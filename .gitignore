@@ -8,4 +8,4 @@ cypress/screenshots/
 .env
 .env.local
 .playwright-mcp/
-docs/
+
